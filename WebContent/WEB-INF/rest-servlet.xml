@@ -39,7 +39,7 @@
 		</property> 
 	</bean>
 	
-	<bean id="buildLifeServiceController" class="com.ft.ahp.controller.BuildLifeServiceController">
+	<bean id="dashboardServiceController" class="com.ft.ahp.controller.DashboardServiceController">
 		<property name="ahpClient" ref="ahpClient" />
 	</bean>
 </beans>

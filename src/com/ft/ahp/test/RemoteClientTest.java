@@ -3,14 +3,14 @@
  */
 package com.ft.ahp.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.ft.ahp.RemoteClient;
+import com.ft.ahp.remote.RemoteClient;
 
 /**
  * @author anurag.kapur
@@ -40,12 +40,12 @@ public class RemoteClientTest {
 	}
 
 	/**
-	 * Test method for {@link com.ft.ahp.RemoteClient#play()}.
+	 * Test method for {@link com.ft.ahp.RemoteClient#}.
 	 */
 	@Test
-	public void testPlay() {
+	public void testGetProgrammeStatus() {
 		RemoteClient rc = new RemoteClient();
-		rc.play();
+		rc.getProgrammeStatus("");
 		assertTrue(true);
 	}
 
