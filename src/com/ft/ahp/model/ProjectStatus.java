@@ -3,12 +3,16 @@
  */
 package com.ft.ahp.model;
 
+import java.io.Serializable;
+
 
 /**
  * @author anurag.kapur
  *
  */
-public class ProjectStatus {
+public class ProjectStatus implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String projectName;
 	private long mostRecentBuildLife;

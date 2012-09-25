@@ -1,12 +1,15 @@
 package com.ft.ahp.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author anuragkapur
  *
  */
-public class PrjBuildLife {
+public class PrjBuildLife implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private int id;
 	private String lastStampValue;
