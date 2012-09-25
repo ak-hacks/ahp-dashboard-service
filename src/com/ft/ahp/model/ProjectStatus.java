@@ -1,12 +1,10 @@
-/**
- * 
- */
 package com.ft.ahp.model;
 
 import java.io.Serializable;
 
 
 /**
+ * Model object defining the metadata associated with a project
  * @author anurag.kapur
  *
  */

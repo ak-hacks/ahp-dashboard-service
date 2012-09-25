@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.ft.ahp.controller;
 
 import java.util.List;
@@ -17,32 +14,48 @@ import com.ft.ahp.model.ProjectStatus;
 import com.ft.ahp.remote.RemoteClient;
 
 /**
+ * The controller for the MVC based RESTful service
  * 
  * @author anurag.kapur
- *
  */
 
 @Controller
 @RequestMapping("/")
 public class DashboardServiceController {
 
-	private static final Logger logger = Logger.getLogger(DashboardServiceController.class);
+	private static final Logger logger = Logger
+			.getLogger(DashboardServiceController.class);
 	private RemoteClient ahpClient;
-	
-	@RequestMapping(method=RequestMethod.GET, value="/project/{name}")
+
+	/**
+	 * Returns the list and metadata, as defined by the {@link PrjBuildLife}
+	 * model object, of all build lives of a project
+	 * 
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/project/{name}")
 	public ModelAndView getBuildLives(@PathVariable String name) {
 		logger.debug("Processing project buildlives view for :: " + name);
 		List<PrjBuildLife> buildLives = ahpClient.getBuildLives(name);
 		return new ModelAndView("projectBuildLives", "buildLives", buildLives);
 	}
 
-	@RequestMapping(method=RequestMethod.GET, value="/programme/{name}")
+	/**
+	 * Returns the list of projects and metadata, as defined by the
+	 * {@link ProjectStatus} model object given a programme name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/programme/{name}")
 	public ModelAndView getProgrammeStatus(@PathVariable String name) {
 		logger.debug("Processing programme status for :: " + name);
-		List<ProjectStatus> programmeStatus = ahpClient.getProgrammeStatus(name);
+		List<ProjectStatus> programmeStatus = ahpClient
+				.getProgrammeStatus(name);
 		return new ModelAndView("programmeStatus", "projects", programmeStatus);
 	}
-	
+
 	public RemoteClient getAhpClient() {
 		return ahpClient;
 	}
