@@ -19,7 +19,7 @@ body {
 	color: #fff;
 	padding: 7px 12px;
 	text-align: left;
-	font-size: 90%;
+	font-size: 85%;
 }
 
 #report td {
@@ -55,14 +55,14 @@ tr.default td {
 
 <table border="1" id="report" cellpadding="1" cellspacing="1">
 	<tr>
-		<th width="8%">Project</th>
-		<th width="3%">Buildlife</th>
-		<th width="2%">Version</th>
-		<th width="2%">Status</th>
-		<th width="15%">Created On</th>
-		<th width="15%">Deployed to INT on</th>
-		<th width="15%">Deployed to TEST on</th>
-		<th width="15%">Deployed to PROD on</th>
+		<th width="9%">Project</th>
+		<th width="1%">Buildlife</th>
+		<th width="8%">Version</th>
+		<th width="1%">Status</th>
+		<th width="14%">Created On</th>
+		<th width="14%">Deployed to INT on</th>
+		<th width="14%">Deployed to TEST on</th>
+		<th width="14%">Deployed to PROD on</th>
 		<th width="25%">Changes</th>
 	</tr>
 	<c:forEach items="${buildLives}" var="buildLife">
