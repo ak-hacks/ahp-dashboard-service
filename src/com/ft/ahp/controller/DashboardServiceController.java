@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +54,12 @@ public class DashboardServiceController {
 		logger.debug("Processing programme status for :: " + name);
 		List<ProjectStatus> programmeStatus = ahpClient
 				.getProgrammeStatus(name);
-		return new ModelAndView("programmeStatus", "projects", programmeStatus);
+		ModelMap modelMap = new ModelMap();
+		modelMap.addAttribute("projects", programmeStatus);
+		modelMap.addAttribute("name", name);
+		
+		//return modelMap;
+		return new ModelAndView("programmeStatus", "programme", modelMap);
 	}
 
 	public RemoteClient getAhpClient() {

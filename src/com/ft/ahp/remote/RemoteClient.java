@@ -369,7 +369,7 @@ public class RemoteClient {
 	 */
 	private AnthillClient anthillClient() throws AuthorizationException {
 		// TODO: Read from config file
-		return AnthillClient.connect("ahp.svc.ft.com", 7916, "ahpdash",
-				"ahpdash");
+		return AnthillClient.connect("ahp.svc.ft.com", 7916, "anurag.kapur",
+				"3ftpyrAmId2012");
 	}
 }
