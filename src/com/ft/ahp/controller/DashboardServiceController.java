@@ -39,6 +39,7 @@ public class DashboardServiceController {
 	public ModelAndView getBuildLives(@PathVariable String name) {
 		logger.debug("Processing project buildlives view for :: " + name);
 		List<PrjBuildLife> buildLives = ahpClient.getBuildLives(name);
+		
 		return new ModelAndView("projectBuildLives", "buildLives", buildLives);
 	}
 
@@ -58,7 +59,6 @@ public class DashboardServiceController {
 		modelMap.addAttribute("projects", programmeStatus);
 		modelMap.addAttribute("name", name);
 		
-		//return modelMap;
 		return new ModelAndView("programmeStatus", "programme", modelMap);
 	}
 
