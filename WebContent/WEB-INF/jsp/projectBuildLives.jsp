@@ -28,48 +28,84 @@ body {
 }
 
 tr.created td {
-	background-color: #FFB90F;
+	background-color: Ivory;
 	color: black;
 }
 
 tr.int td {
-	background-color: #FFFF00;
+	background-color: LightGrey;
 	color: black;
 }
 
 tr.test td {
-	background-color: #00FFFF;
+	background-color: Orange;
+	color: black;
+}
+
+tr.testPassed td {
+	background-color: LightGreen;
+	color: black;
+}
+
+tr.testFailed td {
+	background-color: LightSlateGrey;
 	color: black;
 }
 
 tr.prod td {
-	background-color: #8CDD81;
+	background-color: Green;
+	color: black;
+}
+
+tr.prodPassed td {
+	background-color: DarkGreen;
+	color: black;
+}
+
+tr.prodFailed td {
+	background-color: Red;
 	color: black;
 }
 
 tr.default td {
-	background-color: #FFFFFF;
+	background-color: White;
 	color: black;
 }
 </style>
 
 <table border="1" id="report" cellpadding="1" cellspacing="1">
 	<tr>
-		<th width="9%">Project</th>
+		<th width="11%">Project</th>
 		<th width="1%">Buildlife</th>
-		<th width="8%">Version</th>
+		<th width="14%">Version</th>
 		<th width="1%">Status</th>
-		<th width="14%">Created On</th>
-		<th width="14%">Deployed to INT on</th>
-		<th width="14%">Deployed to TEST on</th>
-		<th width="14%">Deployed to PROD on</th>
-		<th width="25%">Changes</th>
+		<th width="11%">Created On</th>
+		<th width="11%">Deployed to INT on</th>
+		<th width="11%">Deployed to TEST on</th>
+		<th width="11%">Deployed to PROD on</th>
+		<th width="27%">Changes</th>
 	</tr>
 	<c:forEach items="${buildLives}" var="buildLife">
 		<c:choose>
+			<c:when test="${buildLife.liveVerifPassedOn ne '-'}">
+				<c:set var="rowStyle" value="prodPassed" />
+				<c:set var="status" value="Live Verif Passed"/>
+			</c:when>
+			<c:when test="${buildLife.liveVerifFailedOn ne '-'}">
+				<c:set var="rowStyle" value="prodFailed" />
+				<c:set var="status" value="Live Verif Failed"/>
+			</c:when>
 			<c:when test="${buildLife.deployedToProdOn ne '-'}">
 				<c:set var="rowStyle" value="prod" />
 				<c:set var="status" value="In Prod"/>
+			</c:when>
+			<c:when test="${buildLife.testingPassedOn ne '-'}">
+				<c:set var="rowStyle" value="testPassed" />
+				<c:set var="status" value="Testing Passed"/>
+			</c:when>
+			<c:when test="${buildLife.testingFailedOn ne '-'}">
+				<c:set var="rowStyle" value="testFailed" />
+				<c:set var="status" value="Testing Failed"/>
 			</c:when>
 			<c:when test="${buildLife.deployedToTestOn ne '-'}">
 				<c:set var="rowStyle" value="test" />

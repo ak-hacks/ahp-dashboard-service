@@ -63,7 +63,7 @@
 	<table border="1" class="report">
 		<tbody>
 			<c:forEach items="${programme.projects}" var="project" varStatus="loopStatus"
-				begin="3" end="8">
+				begin="3" end="10">
 				<c:choose>
 					<c:when test='${(loopStatus.index)%2 eq 0}'>
 						<c:set var="rowColor" value="grey" scope="page" />
@@ -107,7 +107,7 @@
 	<table border="1" class="report">
 		<tbody>
 			<c:forEach items="${programme.projects}" var="project" varStatus="loopStatus"
-				begin="9">
+				begin="11">
 				<c:choose>
 					<c:when test='${(loopStatus.index)%2 eq 0}'>
 						<c:set var="rowColor" value="grey" scope="page" />

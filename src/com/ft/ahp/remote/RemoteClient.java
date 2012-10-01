@@ -46,6 +46,7 @@ public class RemoteClient {
 	private Ehcache buildLifeCache;
 	private Ehcache projectStatusCache;
 	private Ehcache projectBuildlivesCache;
+	private Ehcache programmeStatusCache;
 
 	private static final Logger logger = Logger.getLogger(RemoteClient.class);
 
@@ -57,6 +58,7 @@ public class RemoteClient {
 		projectStatusCache = cacheManager.getCache("projectStatus");
 		projectBuildlivesCache = cacheManager.getCache("projectBuildlives");
 		buildLifeCache = cacheManager.getCache("ahpBuildLife");
+		programmeStatusCache = cacheManager.getCache("programmeStatus");
 	}
 
 	/**
@@ -122,55 +124,73 @@ public class RemoteClient {
 	 * @param programmeName
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public List<ProjectStatus> getProgrammeStatus(String programmeName) {
 
-		UnitOfWork uw = null;
-		List<ProjectStatus> programmeStatus = new ArrayList<ProjectStatus>();
+		List<ProjectStatus> programmeStatus = null;
+		Element programmeStatusFromCache = programmeStatusCache
+				.get(programmeName);
 
-		String projectNames = bundle.getString(programmeName);
-		StringTokenizer tokenizer = new StringTokenizer(projectNames, ",");
+		if (programmeStatusFromCache != null) {
+			logger.info("CACHE HIT >> programme status found in cache :: "
+					+ programmeName);
+			programmeStatus = (List<ProjectStatus>) programmeStatusFromCache
+					.getValue();
+		} else {
+			logger.info("CACHE MISS >> programme status NOT found in cache :: "
+					+ programmeName);
+			UnitOfWork uw = null;
+			programmeStatus = new ArrayList<ProjectStatus>();
 
-		while (tokenizer.hasMoreElements()) {
-			String projectName = (String) tokenizer.nextElement();
-			try {
-				uw = anthillClient().createUnitOfWork();
-				logger.info("Will restore project :: " + projectName);
-				Project project = projectFactory.restoreForName(projectName);
-				logger.debug("Project restored :: " + projectName);
-				StatusSummary[] summaries = dashboardFactory
-						.getMostRecentSummaryForEachStatus(project);
-				logger.debug("Status summaries for project restored :: "
-						+ projectName);
+			String projectNames = bundle.getString(programmeName);
+			StringTokenizer tokenizer = new StringTokenizer(projectNames, ",");
 
-				ProjectStatus projectStatus = null;
+			while (tokenizer.hasMoreElements()) {
+				String projectName = (String) tokenizer.nextElement();
+				try {
+					uw = anthillClient().createUnitOfWork();
+					logger.info("Will restore project :: " + projectName);
+					Project project = projectFactory
+							.restoreForName(projectName);
+					logger.debug("Project restored :: " + projectName);
+					StatusSummary[] summaries = dashboardFactory
+							.getMostRecentSummaryForEachStatus(project);
+					logger.debug("Status summaries for project restored :: "
+							+ projectName);
 
-				// First look in cache and then from source
-				Element element = projectStatusCache.get(projectName);
-				if (element != null) {
-					logger.info("CACHE HIT >> project status FOUND in Cache");
-					projectStatus = (ProjectStatus) element.getValue();
-				} else {
-					// Not found in cache, look in source
-					logger.info("CACHE MISS >> project status NOT found in cache, will compute");
-					projectStatus = processStatusSummaries(summaries,
-							projectName);
-					element = new Element(projectName, projectStatus);
-					projectStatusCache.put(element);
-				}
+					ProjectStatus projectStatus = null;
 
-				logger.debug("Status summaries for project processed :: "
-						+ projectName);
+					// First look in cache and then from source
+					Element element = projectStatusCache.get(projectName);
+					if (element != null) {
+						logger.info("CACHE HIT >> project status FOUND in Cache");
+						projectStatus = (ProjectStatus) element.getValue();
+					} else {
+						// Not found in cache, look in source
+						logger.info("CACHE MISS >> project status NOT found in cache, will compute");
+						projectStatus = processStatusSummaries(summaries,
+								projectName);
+						element = new Element(projectName, projectStatus);
+						projectStatusCache.put(element);
+					}
 
-				programmeStatus.add(projectStatus);
-			} catch (PersistenceException e) {
-				logger.error(e);
-			} catch (AuthorizationException e) {
-				logger.error(e);
-			} finally {
-				if (uw != null) {
-					uw.close();
+					logger.debug("Status summaries for project processed :: "
+							+ projectName);
+
+					programmeStatus.add(projectStatus);
+				} catch (PersistenceException e) {
+					logger.error(e);
+				} catch (AuthorizationException e) {
+					logger.error(e);
+				} finally {
+					if (uw != null) {
+						uw.close();
+					}
 				}
 			}
+			programmeStatusFromCache = new Element(programmeName,
+					programmeStatus);
+			programmeStatusCache.put(programmeStatusFromCache);
 		}
 
 		return programmeStatus;
@@ -197,14 +217,17 @@ public class RemoteClient {
 				break;
 			}
 			PrjBuildLife buildLife = null;
-			
-			Element buildLifeFromCache = buildLifeCache.get(ahpBuildLife.getId());
+
+			Element buildLifeFromCache = buildLifeCache.get(ahpBuildLife
+					.getId());
 			if (buildLifeFromCache != null) {
 				// First check in cache
-				logger.info("CACHE HIT >> Buildlife data FOUND in cache :: " + ahpBuildLife.getId());
-				buildLife = (PrjBuildLife)buildLifeFromCache.getValue();
-			}else {
-				logger.info("CACHE MISS >> Buildlife data NOT found in cache :: " + ahpBuildLife.getId());
+				logger.info("CACHE HIT >> Buildlife data FOUND in cache :: "
+						+ ahpBuildLife.getId());
+				buildLife = (PrjBuildLife) buildLifeFromCache.getValue();
+			} else {
+				logger.info("CACHE MISS >> Buildlife data NOT found in cache :: "
+						+ ahpBuildLife.getId());
 				buildLife = new PrjBuildLife();
 				buildLife.setId(ahpBuildLife.getId().intValue());
 				buildLife.setLastStampValue(ahpBuildLife.getLatestStampValue());
@@ -216,40 +239,68 @@ public class RemoteClient {
 				logger.debug(ahpBuildLife.getId());
 
 				BuildLifeStatus[] statuses = ahpBuildLife.getStatusArray();
-				for (BuildLifeStatus buildLifeStatus : statuses) {
-					if (buildLifeStatus.getStatus().getName()
-							.equalsIgnoreCase("Promote to Live Success")) {
-						buildLife.setDeployedToProdOn(buildLifeStatus
-								.getDateAssigned());
-					} else if (buildLifeStatus.getStatus().getName()
-							.equalsIgnoreCase("Promote to Test Success")) {
-						buildLife.setDeployedToTestOn(buildLifeStatus
-								.getDateAssigned());
-					} else if (buildLifeStatus.getStatus().getName()
-							.equalsIgnoreCase("In Int")) {
-						buildLife.setDeployedToIntOn(buildLifeStatus
-								.getDateAssigned());
-					}
-					logger.debug(buildLifeStatus.getDateAssigned().toString());
-					logger.debug(buildLifeStatus.getStatus().getName());
-				}
+				processBuildLifeStatus(statuses, buildLife);
 
-				Iterator<BuildLifeChangeSet> changes = ahpBuildLife.getChangeSets()
-						.iterator();
+				Iterator<BuildLifeChangeSet> changes = ahpBuildLife
+						.getChangeSets().iterator();
 				StringBuffer changeLog = new StringBuffer();
 				while (changes.hasNext()) {
-					changeLog.append(changes.next().getChangeSet().getComment());
+					changeLog
+							.append(changes.next().getChangeSet().getComment());
 					changeLog.append("<br/>");
 				}
 				buildLife.setChanges(changeLog.toString());
-				buildLifeFromCache = new Element(ahpBuildLife.getId(), buildLife);
+				buildLifeFromCache = new Element(ahpBuildLife.getId(),
+						buildLife);
 				buildLifeCache.put(buildLifeFromCache);
 			}
-			
+
 			buildLives.add(buildLife);
 		}
 
 		return buildLives;
+	}
+
+	/**
+	 * Process the buildLife statuses array to extract completion date time
+	 * stamps of a subset of statuses meaningful for reporting purposes
+	 * 
+	 * @param buildLifeStatus
+	 * @param buildLife
+	 */
+	private void processBuildLifeStatus(BuildLifeStatus[] statuses,
+			PrjBuildLife buildLife) {
+		for (BuildLifeStatus buildLifeStatus : statuses) {
+			logger.debug(buildLifeStatus.getDateAssigned().toString());
+			logger.debug(buildLifeStatus.getStatus().getName());
+
+			if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("Promote to Live Success")) {
+				buildLife
+						.setDeployedToProdOn(buildLifeStatus.getDateAssigned());
+			} else if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("Promote to Test Success")) {
+				buildLife
+						.setDeployedToTestOn(buildLifeStatus.getDateAssigned());
+			} else if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("In Int")) {
+				buildLife.setDeployedToIntOn(buildLifeStatus.getDateAssigned());
+			} else if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("Testing PASSED")) {
+				buildLife.setTestingPassedOn(buildLifeStatus.getDateAssigned());
+			} else if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("Testing FAILED")) {
+				buildLife.setTestingFailedOn(buildLifeStatus.getDateAssigned());
+			} else if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("Post Live Verification Checks Passed")) {
+				buildLife.setLiveVerifPassedOn(buildLifeStatus
+						.getDateAssigned());
+			} else if (buildLifeStatus.getStatus().getName()
+					.equalsIgnoreCase("Post Live Verification Checks Failed")) {
+				buildLife.setLiveVerifFailedOn(buildLifeStatus
+						.getDateAssigned());
+			}
+		}
 	}
 
 	/**
