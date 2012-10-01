@@ -69,19 +69,22 @@ tr.white td {
 }
 
 A:link {
+	text-decoration: none;
 	color: #26466D;
 }
 
 A:visited {
+	text-decoration: none;
 	color: #26466D;
 }
 
 A:active {
+	text-decoration: none;
 	color: #26466D;
 }
 
 A:hover {
-	text-decoration: underline;
+	text-decoration: none;
 	color: red;
 }
 </style>
@@ -104,6 +107,7 @@ A:hover {
 
 </head>
 <body>
+	<c:set var="baseBuildLifeURL" value="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=" scope="request"/>
 	<c:choose>
 		<c:when test="${programme.name eq 'newsroomsystems'}">
 			<jsp:include page="nsOverallDashboard.jsp" />

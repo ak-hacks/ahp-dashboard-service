@@ -29,20 +29,20 @@
 					</c:otherwise>
 				</c:choose>
 				<tr class="${rowColor}">
-					<td><a href="/ahpsvc/rest/project/${project.projectName}">${project.projectName}</a></td>
-					<td><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.mostRecentBuildLife}">${project.mostRecentReleaseNumber}</a></td>
-					<td><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inIntBuildLife}">${project.inIntReleaseNumber}</a></td>
-					<td><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForTestBuildLife}">${project.readyForTestReleaseNumber}</a></td>
-					<td><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inTestBuildLife}">${project.inTestReleaseNumber}</a></td>
-					<td><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForProdBuildLife}">${project.readyForProdReleaseNumber}</a></td>
-					<td><a
+					<td width="8%"><a href="/ahpsvc/rest/project/${project.projectName}">${project.projectName}</a></td>
+					<td width="15%"><a
+						href="${baseBuildLifeURL}${project.mostRecentBuildLife}">${project.mostRecentReleaseNumber eq project.inIntReleaseNumber ? '>>' : project.mostRecentReleaseNumber}</a></td>
+					<td width="15%"><a
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inIntBuildLife}">${project.inIntReleaseNumber eq project.readyForTestReleaseNumber ? '>>' : project.inIntReleaseNumber}</a></td>
+					<td width="15%"><a
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForTestBuildLife}">${project.readyForTestReleaseNumber eq project.inTestReleaseNumber ? '>>' : project.readyForTestReleaseNumber}</a></td>
+					<td width="15%"><a
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inTestBuildLife}">${project.inTestReleaseNumber eq project.readyForProdReleaseNumber ? '>>' : project.inTestReleaseNumber}</a></td>
+					<td width="15%"><a
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForProdBuildLife}">${project.readyForProdReleaseNumber eq project.inProdReleaseNumber ? '>>':project.readyForProdReleaseNumber}</a></td>
+					<td width="15%"><a
 						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inProdBuildLife}">${project.inProdReleaseNumber}</a></td>
-					<td><div class="arrow"></div></td>
+					<td width="2%"><div class="arrow"></div></td>
 				</tr>
 				<tr>
 					<td><i>Changes:</i></td>
@@ -73,18 +73,17 @@
 					</c:otherwise>
 				</c:choose>
 				<tr class="${rowColor}">
-					<td width="8%"><a
-						href="/ahpsvc/rest/project/${project.projectName}">${project.projectName}</a></td>
+					<td width="8%"><a href="/ahpsvc/rest/project/${project.projectName}">${project.projectName}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.mostRecentBuildLife}">${project.mostRecentReleaseNumber}</a></td>
+						href="${baseBuildLifeURL}${project.mostRecentBuildLife}">${project.mostRecentReleaseNumber eq project.inIntReleaseNumber ? '>>' : project.mostRecentReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inIntBuildLife}">${project.inIntReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inIntBuildLife}">${project.inIntReleaseNumber eq project.readyForTestReleaseNumber ? '>>' : project.inIntReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForTestBuildLife}">${project.readyForTestReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForTestBuildLife}">${project.readyForTestReleaseNumber eq project.inTestReleaseNumber ? '>>' : project.readyForTestReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inTestBuildLife}">${project.inTestReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inTestBuildLife}">${project.inTestReleaseNumber eq project.readyForProdReleaseNumber ? '>>' : project.inTestReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForProdBuildLife}">${project.readyForProdReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForProdBuildLife}">${project.readyForProdReleaseNumber eq project.inProdReleaseNumber ? '>>':project.readyForProdReleaseNumber}</a></td>
 					<td width="15%"><a
 						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inProdBuildLife}">${project.inProdReleaseNumber}</a></td>
 					<td width="2%"><div class="arrow"></div></td>
@@ -117,18 +116,17 @@
 					</c:otherwise>
 				</c:choose>
 				<tr class="${rowColor}">
-					<td width="8%"><a
-						href="/ahpsvc/rest/project/${project.projectName}">${project.projectName}</a></td>
+					<td width="8%"><a href="/ahpsvc/rest/project/${project.projectName}">${project.projectName}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.mostRecentBuildLife}">${project.mostRecentReleaseNumber}</a></td>
+						href="${baseBuildLifeURL}${project.mostRecentBuildLife}">${project.mostRecentReleaseNumber eq project.inIntReleaseNumber ? '>>' : project.mostRecentReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inIntBuildLife}">${project.inIntReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inIntBuildLife}">${project.inIntReleaseNumber eq project.readyForTestReleaseNumber ? '>>' : project.inIntReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForTestBuildLife}">${project.readyForTestReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForTestBuildLife}">${project.readyForTestReleaseNumber eq project.inTestReleaseNumber ? '>>' : project.readyForTestReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inTestBuildLife}">${project.inTestReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inTestBuildLife}">${project.inTestReleaseNumber eq project.readyForProdReleaseNumber ? '>>' : project.inTestReleaseNumber}</a></td>
 					<td width="15%"><a
-						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForProdBuildLife}">${project.readyForProdReleaseNumber}</a></td>
+						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.readyForProdBuildLife}">${project.readyForProdReleaseNumber eq project.inProdReleaseNumber ? '>>':project.readyForProdReleaseNumber}</a></td>
 					<td width="15%"><a
 						href="http://ahp.svc.ft.com/tasks/project/BuildLifeTasks/viewBuildLife?buildLifeId=${project.inProdBuildLife}">${project.inProdReleaseNumber}</a></td>
 					<td width="2%"><div class="arrow"></div></td>
