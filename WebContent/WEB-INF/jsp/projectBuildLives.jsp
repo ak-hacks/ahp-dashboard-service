@@ -138,3 +138,6 @@ tr.default td {
 		</tr>
 	</c:forEach>
 </table>
+<p>
+<a href="/ahpsvc/colorStatusLegend.jsp" target="_blank">What do the colours mean?</a>
+</p>

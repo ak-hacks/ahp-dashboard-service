@@ -116,5 +116,7 @@ A:hover {
 			<jsp:include page="defaultDashboard.jsp" />
 		</c:otherwise>
 	</c:choose>
+	
+	<p><i>'>>' Indicates the release number is same as the next environment</i></p>
 </body>
 </html>
