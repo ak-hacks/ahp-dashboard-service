@@ -46,6 +46,16 @@
     </cache>
 
     <cache
+        name="programmeStatus"
+        eternal="false"
+        maxElementsInMemory="1000"
+        maxElementsOnDisk="10000"
+        memoryStoreEvictionPolicy="LFU"
+        timeToIdleSeconds="900"
+        timeToLiveSeconds="900" >
+    </cache>    
+    
+    <cache
         name="projectBuildlives"
         eternal="false"
         maxElementsInMemory="1000"
