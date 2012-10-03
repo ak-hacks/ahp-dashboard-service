@@ -3,6 +3,11 @@ AHP-Dashboard-Service
 
 A Spring MVC based RESTful dashboard using Anthill Pro APIs
 
+Additional Documentation
+========================
+
+Refer: [My Blog](http://techbytes.anuragkapur.com/2012/10/restful-anthill-pro-reporting-service.html)
+
 Tested Tech Stack Versions
 ==========================
 * Java 1.6.0_33
@@ -30,6 +35,6 @@ Views
 There is a customised view implementation using JSPs which consume the model objects returned by the RESTful web service. If you wish to create your own views you can use JSON responses.
 
 Preconfigured Views can be accessed via endpoints described above by not including the .json at the end of the URL.
-Example: http://localhost:8080/ahpsvc/rest/programme/<your_programme_name_configured_in_ahpconfigs_properties>
+Example: http://localhost:8080/ahpsvc/rest/programme/${your_programme_name_configured_in_ahpconfigs_properties}
 OR
-http://localhost:808/ahpsvc/rest/project/<any_ahp_project_name>
+http://localhost:808/ahpsvc/rest/project/${any_ahp_project_name}
