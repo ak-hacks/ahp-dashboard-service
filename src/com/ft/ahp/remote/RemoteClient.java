@@ -40,7 +40,7 @@ public class RemoteClient {
 	private static DashboardFactory dashboardFactory = DashboardFactory
 			.getInstance();
 
-	private ResourceBundle bundle = ResourceBundle.getBundle("configs");
+	private ResourceBundle bundle = ResourceBundle.getBundle("ahpconfigs");
 	private CacheManager cacheManager = new CacheManager();
 	private Ehcache buildLifeChangesCache;
 	private Ehcache buildLifeCache;
@@ -48,10 +48,26 @@ public class RemoteClient {
 	private Ehcache projectBuildlivesCache;
 	private Ehcache programmeStatusCache;
 
+	private static String ahpServerName;
+	private static int ahpServerPort;
+	private static String ahpUserName;
+	private static String ahpUserPassword;
+
+	private static String successStatusStamp;
+	private static String peerReviewedStatusStamp;
+	private static String inProdStatusStamp;
+	private static String inTestStatusStamp;
+	private static String inIntStatusStamp;
+	private static String testingPassedStatusStamp;
+	private static String testingFailedStatusStamp;
+	private static String postLiveVerficationPassedStatusStamp;
+	private static String postLiveVerficationFailedStatusStamp;
+
 	private static final Logger logger = Logger.getLogger(RemoteClient.class);
 
 	/**
-	 * Constructor for the RemoteClient, initializes caches
+	 * Constructor for the RemoteClient, initializes caches and other static
+	 * objects
 	 */
 	public RemoteClient() {
 		buildLifeChangesCache = cacheManager.getCache("ahpBuildLifeChanges");
@@ -59,6 +75,19 @@ public class RemoteClient {
 		projectBuildlivesCache = cacheManager.getCache("projectBuildlives");
 		buildLifeCache = cacheManager.getCache("ahpBuildLife");
 		programmeStatusCache = cacheManager.getCache("programmeStatus");
+		ahpServerName = bundle.getString("ahp_server_name");
+		ahpServerPort = Integer.parseInt(bundle.getString("ahp_server_port"));
+		ahpUserName = bundle.getString("ahp_user_name");
+		ahpUserPassword = bundle.getString("ahp_user_password");
+		successStatusStamp = bundle.getString("success_status_stamp");
+		peerReviewedStatusStamp = bundle.getString("peer_reviewed_status_stamp");
+		inProdStatusStamp = bundle.getString("in_prod_status_stamp");
+		inTestStatusStamp = bundle.getString("in_test_status_stamp");
+		inIntStatusStamp = bundle.getString("in_int_status_stamp");
+		testingPassedStatusStamp = bundle.getString("testing_passed_status_stamp");
+		testingFailedStatusStamp = bundle.getString("testing_failed_status_stamp");
+		postLiveVerficationPassedStatusStamp = bundle.getString("post_live_verfication_passed_status_stamp");
+		postLiveVerficationFailedStatusStamp = bundle.getString("post_live_verfication_failed_status_stamp");
 	}
 
 	/**
@@ -275,28 +304,28 @@ public class RemoteClient {
 			logger.debug(buildLifeStatus.getStatus().getName());
 
 			if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("Promote to Live Success")) {
+					.equalsIgnoreCase(inProdStatusStamp)) {
 				buildLife
 						.setDeployedToProdOn(buildLifeStatus.getDateAssigned());
 			} else if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("Promote to Test Success")) {
+					.equalsIgnoreCase(inTestStatusStamp)) {
 				buildLife
 						.setDeployedToTestOn(buildLifeStatus.getDateAssigned());
 			} else if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("In Int")) {
+					.equalsIgnoreCase(inIntStatusStamp)) {
 				buildLife.setDeployedToIntOn(buildLifeStatus.getDateAssigned());
 			} else if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("Testing PASSED")) {
+					.equalsIgnoreCase(testingPassedStatusStamp)) {
 				buildLife.setTestingPassedOn(buildLifeStatus.getDateAssigned());
 			} else if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("Testing FAILED")) {
+					.equalsIgnoreCase(testingFailedStatusStamp)) {
 				buildLife.setTestingFailedOn(buildLifeStatus.getDateAssigned());
 			} else if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("Post Live Verification Checks Passed")) {
+					.equalsIgnoreCase(postLiveVerficationPassedStatusStamp)) {
 				buildLife.setLiveVerifPassedOn(buildLifeStatus
 						.getDateAssigned());
 			} else if (buildLifeStatus.getStatus().getName()
-					.equalsIgnoreCase("Post Live Verification Checks Failed")) {
+					.equalsIgnoreCase(postLiveVerficationFailedStatusStamp)) {
 				buildLife.setLiveVerifFailedOn(buildLifeStatus
 						.getDateAssigned());
 			}
@@ -326,37 +355,37 @@ public class RemoteClient {
 			String releaseStamp = (statusSummary.getLatestStamp() != null) ? statusSummary
 					.getLatestStamp() : "NA";
 
-			if (statusSummary.getStatusName().equalsIgnoreCase("success")) {
+			if (statusSummary.getStatusName().equalsIgnoreCase(successStatusStamp)) {
 				projectStatus.setMostRecentBuildLife(buildLifeId);
 				projectStatus.setMostRecentReleaseNumber(releaseStamp);
 				projectStatus
 						.setMostRecentBuildChanges(getChangesforBuildLife(buildLifeId));
 
-			} else if (statusSummary.getStatusName().equalsIgnoreCase("In Int")) {
+			} else if (statusSummary.getStatusName().equalsIgnoreCase(inIntStatusStamp)) {
 				projectStatus.setInIntBuildLife(buildLifeId);
 				projectStatus.setInIntReleaseNumber(releaseStamp);
 				projectStatus
 						.setInIntBuildChanges(getChangesforBuildLife(buildLifeId));
 			} else if (statusSummary.getStatusName().equalsIgnoreCase(
-					"Peer Reviewed")) {
+					peerReviewedStatusStamp)) {
 				projectStatus.setReadyForTestBuildLife(buildLifeId);
 				projectStatus.setReadyForTestReleaseNumber(releaseStamp);
 				projectStatus
 						.setReadyForTestBuildChanges(getChangesforBuildLife(buildLifeId));
 			} else if (statusSummary.getStatusName()
-					.equalsIgnoreCase("In Test")) {
+					.equalsIgnoreCase(inTestStatusStamp)) {
 				projectStatus.setInTestBuildLife(buildLifeId);
 				projectStatus.setInTestReleaseNumber(releaseStamp);
 				projectStatus
 						.setInTestBuildChanges(getChangesforBuildLife(buildLifeId));
 			} else if (statusSummary.getStatusName().equalsIgnoreCase(
-					"Testing PASSED")) {
+					testingPassedStatusStamp)) {
 				projectStatus.setReadyForProdBuildLife(buildLifeId);
 				projectStatus.setReadyForProdReleaseNumber(releaseStamp);
 				projectStatus
 						.setReadyForProdBuildChanges(getChangesforBuildLife(buildLifeId));
 			} else if (statusSummary.getStatusName()
-					.equalsIgnoreCase("In Live")) {
+					.equalsIgnoreCase(inProdStatusStamp)) {
 				projectStatus.setInProdBuildLife(buildLifeId);
 				projectStatus.setInProdReleaseNumber(releaseStamp);
 				projectStatus
@@ -414,13 +443,14 @@ public class RemoteClient {
 	}
 
 	/**
+	 * Establishes a connection with remote AHP server and returns a client to
+	 * query
 	 * 
-	 * @return
+	 * @return AHP Client
 	 * @throws AuthorizationException
 	 */
 	private AnthillClient anthillClient() throws AuthorizationException {
-		// TODO: Read from config file
-		return AnthillClient.connect("ahp.svc.ft.com", 7916, "anurag.kapur",
-				"3ftpyrAmId2012");
+		return AnthillClient.connect(ahpServerName, ahpServerPort, ahpUserName,
+				ahpUserPassword);
 	}
 }
