@@ -77,8 +77,8 @@ public class RemoteClient {
 		programmeStatusCache = cacheManager.getCache("programmeStatus");
 		ahpServerName = bundle.getString("ahp_server_name");
 		ahpServerPort = Integer.parseInt(bundle.getString("ahp_server_port"));
-		ahpUserName = "anurag.kapur";//bundle.getString("ahp_user_name");
-		ahpUserPassword = "4ftpyrAmId2012";//bundle.getString("ahp_user_password");
+		ahpUserName = bundle.getString("ahp_user_name");
+		ahpUserPassword = bundle.getString("ahp_user_password");
 		successStatusStamp = bundle.getString("success_status_stamp");
 		peerReviewedStatusStamp = bundle.getString("peer_reviewed_status_stamp");
 		inProdStatusStamp = bundle.getString("in_prod_status_stamp");
