@@ -38,3 +38,8 @@ Preconfigured Views can be accessed via endpoints described above by not includi
 Example: http://localhost:8080/ahpsvc/rest/programme/${your_programme_name_configured_in_ahpconfigs_properties}
 OR
 http://localhost:808/ahpsvc/rest/project/${any_ahp_project_name}
+
+Note(s)
+=======
+There is probably an overkill of jar files used in the webapp. I will try and mavenise the project soon so that the jar management is a lot more cleaner. 
+
