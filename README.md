@@ -22,25 +22,25 @@ RESTful Endpoints
 =================
 
 * Consolidated projects service endpoint
-Gives the summary status of all projects configured under the Programme/Category/Grouping via the ahpconfigs.properties file
-        Example: http://localhost:8080/ahpsvc/rest/programme/<your_programme_name_configured_in_ahpconfigs_properties>.json
+Gives the summary status of all projects configured under the Programme/Category/Grouping via the ahpconfigs.properties file     
+Example: http://localhost:8080/ahpsvc/rest/programme/<your_programme_name_configured_in_ahpconfigs_properties>.json
 
 * Individual Project service endpoint
-Gives a list of all buildlives including data about each buildlife like date it was deployed to various environments, repository change logs etc
-        Example: http://localhost:808/ahpsvc/rest/project/<any_ahp_project_name>.json
+Gives a list of all buildlives including data about each buildlife like date it was deployed to various environments, repository change logs etc     
+Example: http://localhost:808/ahpsvc/rest/project/<any_ahp_project_name>.json
 
 Views
 =====
 
 There is a customised view implementation using JSPs which consume the model objects returned by the RESTful web service. If you wish to create your own views you can use JSON responses.
 
-Preconfigured Views can be accessed via endpoints described above by not including the .json at the end of the URL.
-Example: http://localhost:8080/ahpsvc/rest/programme/${your_programme_name_configured_in_ahpconfigs_properties}
-OR
+Preconfigured Views can be accessed via endpoints described above by not including the .json at the end of the URL.     
+Example: http://localhost:8080/ahpsvc/rest/programme/${your_programme_name_configured_in_ahpconfigs_properties}     
+OR     
 http://localhost:808/ahpsvc/rest/project/${any_ahp_project_name}
 
 Note(s)
 =======
-There is probably an overkill of jar files used in the webapp. I will try and mavenise the project soon so that the jar management is a lot more cleaner.
-    Update on 16 Aug 2013: Mavenisation Complete.
+There is probably an overkill of jar files used in the webapp. I will try and mavenise the project soon so that the jar management is a lot more cleaner.     
+Update on 16 Aug 2013: Mavenisation Complete.
 
