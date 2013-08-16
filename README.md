@@ -23,11 +23,11 @@ RESTful Endpoints
 
 * Consolidated projects service endpoint
 Gives the summary status of all projects configured under the Programme/Category/Grouping via the ahpconfigs.properties file
-    Example: http://localhost:8080/ahpsvc/rest/programme/<your_programme_name_configured_in_ahpconfigs_properties>.json
+        Example: http://localhost:8080/ahpsvc/rest/programme/<your_programme_name_configured_in_ahpconfigs_properties>.json
 
 * Individual Project service endpoint
 Gives a list of all buildlives including data about each buildlife like date it was deployed to various environments, repository change logs etc
-    Example: http://localhost:808/ahpsvc/rest/project/<any_ahp_project_name>.json
+        Example: http://localhost:808/ahpsvc/rest/project/<any_ahp_project_name>.json
 
 Views
 =====
