@@ -3,6 +3,25 @@ AHP-Dashboard-Service
 
 A Spring MVC based RESTful dashboard using Anthill Pro APIs
 
+How to Build
+============
+
+Add AHP Jars to your local Maven Repo
+-------------------------------------
+    cd {PROJECT_ROOT}/libs
+    mvn install:install-file  -Dfile=anthill3-client.jar -DgroupId=local.ahp -DartifactId=anthill3-client -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=anthill3-drivers.jar -DgroupId=local.ahp -DartifactId=anthill3-drivers -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=bsh-2.0b4-uc1.jar -DgroupId=local.ahp -DartifactId=bsh-2.0b4-uc1 -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=codestation2.jar -DgroupId=local.ahp -DartifactId=codestation2 -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=Commons-Locking.jar -DgroupId=local.ahp -DartifactId=Commons-Locking -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=CommonsNet -DgroupId=local.ahp -DartifactId=CommonsNet -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=CommonsUtil.jar -DgroupId=local.ahp -DartifactId=CommonsUtil -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+    mvn install:install-file  -Dfile=devilfish.jar -DgroupId=local.ahp -DartifactId=devilfish -Dversion=1.0 -Dpackaging=jar -DlocalRepositoryPath={PATH_OF_YOUR_LOCAL_m2_REPO}/.m2/repository
+
+Maven build
+-----------
+    mvn clean install
+
 Additional Documentation
 ========================
 
