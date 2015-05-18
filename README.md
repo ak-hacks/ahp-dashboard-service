@@ -1,6 +1,8 @@
 AHP Dashboard Service
 =====================
 
+[![Join the chat at https://gitter.im/ak-hacks/ahp-dashboard-service](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ak-hacks/ahp-dashboard-service?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A Spring MVC based RESTful dashboard using Anthill Pro APIs
 
 How to Build
